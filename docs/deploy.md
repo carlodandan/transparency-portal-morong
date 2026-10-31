@@ -1,17 +1,17 @@
 # Deploying
 
-The build is static: `npm run build` → `dist/`. Every host needs the same single rule,
+The build is static: `pnpm run build` → `dist/`. Every host needs the same single rule,
 because the routes (`/districts`, `/projects/…`, `/about`) are handled in the browser:
 **a path that is not a file serves `/index.html`**.
 
-Before deploying, run `npm run check`. It exits non-zero if an office name, district id
+Before deploying, run `pnpm run check`. It exits non-zero if an office name, district id
 or exclusion does not match the API, so it can gate a CI deploy:
 
 ```yaml
 # .github/workflows/deploy.yml (excerpt)
-- run: npm ci
-- run: npm run check
-- run: npm run build
+- run: pnpm ci
+- run: pnpm run check
+- run: pnpm run build
 ```
 
 ## Cloudflare Workers (static assets)
@@ -22,7 +22,7 @@ No Worker code and no bindings.
 ```bash
 # change "name" in wrangler.jsonc first
 npx wrangler login
-npm run deploy:cloudflare
+pnpm run deploy:cloudflare
 ```
 
 Add a custom domain in the Cloudflare dashboard (Workers → your worker → Domains).

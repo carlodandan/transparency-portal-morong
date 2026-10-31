@@ -1,13 +1,13 @@
 /**
- * `npm run check` — runs portal.config.ts against the live API and prints what
+ * `pnpm run check` — runs portal.config.ts against the live API and prints what
  * the portal will show: every query, its count, and the totals. Exits non-zero
  * when the config cannot work (an office name the API does not know, an
  * exclusion that matches nothing, a query too broad to be one place), so it
  * can gate a deploy in CI.
  *
- *   npm run check                                   portal.config.ts
- *   npm run check -- --config=examples/deo.config.ts
- *   npm run check -- --verbose                      list lines to review
+ *   pnpm run check                                   portal.config.ts
+ *   pnpm run check -- --config=examples/deo.config.ts
+ *   pnpm run check -- --verbose                      list lines to review
  */
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -39,7 +39,7 @@ async function main() {
     const kept = q.region ? ` · ${count(q.kept)} kept in region ${q.region} or giving no region` : '';
     console.log(`  ${q.dataset.padEnd(5)} ${what}: ${count(q.total)}${kept}`);
     if (q.kind === 'office') {
-      if (q.total === 0) problems.push(`office "${q.label}" matches no DPWH line. Use the name as published: npm run setup -- --list-offices`);
+      if (q.total === 0) problems.push(`office "${q.label}" matches no DPWH line. Use the name as published: pnpm run setup -- --list-offices`);
       const lens = q.officeLens;
       if (lens?.offices.length) {
         for (const o of lens.offices) {
@@ -79,7 +79,7 @@ async function main() {
       const d = await api.district(id);
       console.log(`  district ${d.data.label} · ${d.data.attribution.label}`);
     } catch {
-      problems.push(`district "${id}" is not in the API. List them: npm run setup -- --list-districts`);
+      problems.push(`district "${id}" is not in the API. List them: pnpm run setup -- --list-districts`);
     }
   }
 

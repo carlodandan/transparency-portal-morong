@@ -1,5 +1,5 @@
 /**
- * `npm run build:poster` — the "Create your own transparency portal" poster, in
+ * `pnpm run build:poster` — the "Create your own transparency portal" poster, in
  * two formats: 1080×1350 (feed, 4:5) and 1080×1080 (square, for Facebook).
  *
  * The sample image is the real portal: screenshots of a running copy (desktop
@@ -11,9 +11,9 @@
  * Type and layout follow the BetterGov.PH campaign posters (Anton, Inter,
  * JetBrains Mono on paper, black footer), in BetterGov blue.
  *
- *   npm run dev                          # the sample portal, on :5132
- *   npm run build:poster                 # writes docs/poster/*.png
- *   npm run build:poster -- --site=http://127.0.0.1:5132 --out=docs/poster
+ *   pnpm run dev                          # the sample portal, on :5132
+ *   pnpm run build:poster                 # writes docs/poster/*.png
+ *   pnpm run build:poster -- --site=http://127.0.0.1:5132 --out=docs/poster
  *
  * Needs network access (Google Fonts, the Budget API) and Playwright's Chromium
  * (`npx playwright-core install chromium` if it is not installed).
@@ -188,7 +188,7 @@ function html(f: Format, d: Awaited<ReturnType<typeof loadData>>, shots: { deskt
   const titleSize = (square ? 10.4 : 12.6) * u;
   const steps = [
     'Fork the code on GitHub, at the link below.',
-    `Run <code>npm run setup</code> and pick your province, city, town or district engineering office.`,
+    `Run <code>pnpm run setup</code> and pick your province, city, town or district engineering office.`,
     `Deploy it to Cloudflare, Vercel or Netlify. No server, no database.`,
   ];
   const fine =

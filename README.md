@@ -8,7 +8,7 @@ of 2020 to 2026** for the same area: each DPWH office's budget year by year, and
 program or project in any department whose name names the place.
 
 <p align="center">
-  <img src="docs/poster/create-your-own-transparency-portal-1080x1080.png" alt="Create your own transparency portal: for your LGU or DPWH district office. A sample portal for the Province of Bohol, and three steps: fork, run npm run setup, deploy." width="540">
+  <img src="docs/poster/create-your-own-transparency-portal-1080x1080.png" alt="Create your own transparency portal: for your LGU or DPWH district office. A sample portal for the Province of Bohol, and three steps: fork, run pnpm run setup, deploy." width="540">
 </p>
 
 **See a sample:** [transparency-portal.bettergov.workers.dev](https://transparency-portal.bettergov.workers.dev),
@@ -25,13 +25,13 @@ server.
 ```bash
 git clone https://github.com/bettergovph/transparency-portal my-portal
 cd my-portal
-npm install
-npm run setup     # pick your province, city, municipality or DPWH office
-npm run check     # counts every query against the live API
-npm run dev       # http://localhost:5132
+pnpm install
+pnpm run setup     # pick your province, city, municipality or DPWH office
+pnpm run check     # counts every query against the live API
+pnpm run dev       # http://localhost:5132
 ```
 
-`npm run setup` asks a few questions, looks up exact names and ids in the API, and
+`pnpm run setup` asks a few questions, looks up exact names and ids in the API, and
 writes `portal.config.ts`. That file is the only one a fork needs to change.
 
 ## What the portal shows
@@ -73,12 +73,12 @@ scope: {
   `region` cannot narrow these; make `q` specific instead. DPWH offices' yearly totals
   come with the offices.
 - **Exclusions** are for namesakes: `<program>:<id>` for a 2027 line, `gaa:<family key>`
-  for a 2020–2026 program (the key is in the CSV). `npm run check -- --verbose` lists the
+  for a 2020–2026 program (the key is in the CSV). `pnpm run check -- --verbose` lists the
   2027 lines found only by name under another office, which are the ones to review.
 
 Examples for each kind are in [`examples/`](examples): a DEO, a highly urbanised city
 (Quezon City, whose offices are shared), and a municipality (Carmen, Bohol, a name used
-in several provinces). Check any of them with `npm run check -- --config=examples/deo.config.ts`.
+in several provinces). Check any of them with `pnpm run check -- --config=examples/deo.config.ts`.
 
 ### What it cannot do yet
 
@@ -108,7 +108,7 @@ These come from the API and the comparison behind it. A fork should keep them.
 - Enacted amounts (2020–2026) are appropriations: the authority to spend, not spending.
   A year counts only where its amount is above zero. Years are shown side by side, and
   the 2027 versions are never added to them.
-- `npm run check` reconciles every 2020–2026 search, department by department and year
+- `pnpm run check` reconciles every 2020–2026 search, department by department and year
   by year, against the API's own totals, so a lost page cannot go unnoticed.
 
 ## Citizen reports
@@ -121,13 +121,13 @@ form with the project's reference. Until the service opens, `reporting.enabled` 
 
 ## Deploying
 
-`npm run build` writes static files to `dist/`. Each host needs one rule: unknown paths
+`pnpm run build` writes static files to `dist/`. Each host needs one rule: unknown paths
 serve `index.html`, because the routes are client-side. That rule is already in the repo
 for each:
 
 | Host | How |
 | --- | --- |
-| Cloudflare Workers | `npm run deploy:cloudflare` (uses `wrangler.jsonc`; rename `name` first) |
+| Cloudflare Workers | `pnpm run deploy:cloudflare` (uses `wrangler.jsonc`; rename `name` first) |
 | Vercel | Import the repo; `vercel.json` has the build and the rewrite |
 | Netlify | Import the repo; `netlify.toml` has the build and the redirect |
 | Anything else | Serve `dist/` and send unknown paths to `/index.html` |
@@ -144,8 +144,8 @@ also in [`docs/poster/`](docs/poster) and the
 [BetterGov campaign gallery](https://budget-assets.bettergov.ph/hgab/2027/campaign/index.html).
 
 The sample image is the real portal, screenshotted when the poster is built, and the background lists every DPWH
-district engineering office. To rebuild it after a design change, run the portal (`npm run dev`) and then
-`npm run build:poster`. It needs Playwright's Chromium (`npx playwright-core install chromium`).
+district engineering office. To rebuild it after a design change, run the portal (`pnpm run dev`) and then
+`pnpm run build:poster`. It needs Playwright's Chromium (`npx playwright-core install chromium`).
 
 ## Stack
 
@@ -162,9 +162,9 @@ src/lib/scope.ts      config → the portal's 2027 projects, each with its reaso
 src/lib/gaa.ts        config → the 2020–2026 programs that name the places
 src/pages/            Projects (with offices and their districts), Enacted (2020–2026), Project, About
 src/styles/           theme tokens and layout
-scripts/setup.ts      npm run setup
-scripts/check.ts      npm run check (exits non-zero on a broken config; use it in CI)
-scripts/build-poster.ts  npm run build:poster → docs/poster/
+scripts/setup.ts      pnpm run setup
+scripts/check.ts      pnpm run check (exits non-zero on a broken config; use it in CI)
+scripts/build-poster.ts  pnpm run build:poster → docs/poster/
 examples/             a DEO, a city, a municipality
 ```
 

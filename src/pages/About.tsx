@@ -153,7 +153,7 @@ function AboutView({ scope, overview }: { scope: ScopeResult; overview: Overview
       <section className="section build-own" aria-labelledby="b-h">
         <h2 id="b-h" className="section-h">Run a portal like this for your LGU or DPWH office</h2>
         <p>
-          This portal is open source. Fork it, run <code>npm run setup</code> to pick your province, city, municipality or
+          This portal is open source. Fork it, run <code>pnpm run setup</code> to pick your province, city, municipality or
           district engineering office, and deploy it to Cloudflare, Vercel or Netlify. It needs no database: the data comes
           from the same API. <External href={SOURCE_CODE_URL}>Source code</External> · <Link to="/">Back to the projects</Link>
         </p>

@@ -69,7 +69,7 @@ export interface PortalConfig {
     /**
      * DPWH offices, named exactly as the documents publish them
      * ("Bohol 1st District Engineering Office"). Every DPWH line listed under
-     * each office is in the portal. `npm run setup` finds the names.
+     * each office is in the portal. `pnpm run setup` finds the names.
      */
     offices?: string[];
     /**

@@ -11,14 +11,14 @@ Everything comes from the public, read-only, CORS-open BetterGov.ph Budget API
 | `GET /api/v1/hgab/2027/datasets/{program}/projects?q=…` | Every line in a program whose title names a place |
 | `GET /api/v1/hgab/2027/datasets/{program}/projects/{id}` | One project: every version's amount and PDF page, match and reading labels, notes |
 | `GET /api/v1/hgab/2027/districts/{id}` | A district card: representative, offices, tiers, 2027 figures |
-| `GET /api/v1/hgab/2027/districts` | `npm run setup` only: every district and office, to find names and ids |
+| `GET /api/v1/hgab/2027/districts` | `pnpm run setup` only: every district and office, to find names and ids |
 | `GET /api/v1/gaa/departments` | The 38 GAA departments, to search each one |
 | `GET /api/v1/gaa/departments/{id}/programs?q=…` | Every program family in one department whose name has `q`, with its amount in each year 2020–2026; paged by `cursor`, 500 at a time |
-| `…/programs?q=…&year=…&limit=1` | `npm run check` only: `meta.matched_amount`, the API's own total for the search in that year, to reconcile against |
+| `…/programs?q=…&year=…&limit=1` | `pnpm run check` only: `meta.matched_amount`, the API's own total for the search in that year, to reconcile against |
 
 The 2027 project lists are paged at 200 rows; the client fetches every page (`allProjects` in
 `src/api/client.ts`), four at a time. A query that matches more than 4,000 rows is cut
-there and `npm run check` fails, since no single place should match that many.
+there and `pnpm run check` fails, since no single place should match that many.
 
 Every response carries `meta` (with `notice`, the source commit and build date) and
 `disclaimers`. The portal prints both as they come.
@@ -27,7 +27,7 @@ Every response carries `meta` (with `notice`, the source commit and build date) 
 
 - The `office` filter matches the office **as the documents publish it**
   ("Bohol 1st District Engineering Office"), not the short card name ("Bohol 1st DEO").
-  `npm run setup -- --list-offices` prints the published names; they come from each
+  `pnpm run setup -- --list-offices` prints the published names; they come from each
   office's FY 2027 `matched_label` on its district page.
 - The irrigation list gives no region, so the API's `region` filter would drop every
   irrigation line. The portal applies a place's region itself and keeps lines with no
@@ -49,7 +49,7 @@ Every response carries `meta` (with `notice`, the source commit and build date) 
   lines into later years at ₱0 (a 2020 access road in Ubay still counts two lines in
   2026), so a count alone does not mean that year's GAA funds it.
 - `meta.matched` is the same for every `year`; `meta.matched_amount` is that year's
-  total. `npm run check` compares it with the sum of the rows, for every department and
+  total. `pnpm run check` compares it with the sum of the rows, for every department and
   year.
 - DPWH money **by office** per year is not in these routes (a DEO's lines are spread
   across thousands of projects). It comes from each office's `years` on its district

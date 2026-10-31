@@ -2,7 +2,7 @@
  * Example: a municipality. Copy over portal.config.ts.
  * "Carmen" is a town in several provinces, so the search asks for both words
  * ("Carmen" and "Bohol") and stays in Region VII. Titles that do not spell out
- * the province are missed this way; `npm run check` shows both counts.
+ * the province are missed this way; `pnpm run check` shows both counts.
  */
 import { defineConfig } from '../src/config';
 

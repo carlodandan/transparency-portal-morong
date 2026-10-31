@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import portal from './portal.config';
-import { DEFAULT_API, shortNameOf } from './src/config';
+import portal from './portal.config.ts';
+import { DEFAULT_API, shortNameOf } from './src/config.ts';
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
