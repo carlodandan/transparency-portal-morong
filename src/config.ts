@@ -32,8 +32,12 @@ export interface PlaceQuery {
   q?: string;
   /** A region key ("VII", "NCR", "IV-A") to keep a common name to one region. */
   region?: string;
+  /** The parent province (e.g. "Rizal", "Bataan"). Disambiguates namesake towns. */
+  province?: string;
   /** Programs to search. Defaults to all four. */
   datasets?: DatasetKey[];
+  /** Whether to search GAA (2020–2026) departments for this place. Defaults to true. Set false for sub-LGU queries. */
+  gaa?: boolean;
 }
 
 /** A line the maintainer removed from the portal. Every exclusion is published on the About page. */
@@ -66,6 +70,8 @@ export interface PortalConfig {
   /** Budget API host. Default https://budget.bettergov.ph. VITE_API_BASE overrides it. */
   api?: string;
   scope: {
+    /** The parent province for municipal or city portals (e.g. "Rizal", "Bohol"). */
+    province?: string;
     /**
      * DPWH offices, named exactly as the documents publish them
      * ("Bohol 1st District Engineering Office"). Every DPWH line listed under
@@ -81,6 +87,11 @@ export interface PortalConfig {
     districts?: string[];
     /** Lines removed by hand. Published, with reasons, on the About page. */
     exclude?: Exclusion[];
+    /**
+     * Substrings that drop matching project or program titles across 2027 and GAA.
+     * Useful for excluding hero monuments, sports complexes, shrines, or out-of-province facilities.
+     */
+    excludeTerms?: string[];
   };
   /**
    * Citizen reports go to one central service on budget.bettergov.ph (not
@@ -105,7 +116,7 @@ export function configProblems(config: PortalConfig): string[] {
   }
   if (!config.name.trim()) problems.push('name is empty.');
   if (!config.operator?.name?.trim()) problems.push('operator.name is empty: say who runs this portal.');
-  const { offices = [], places = [], districts = [], exclude = [] } = config.scope;
+  const { offices = [], places = [], districts = [], exclude = [], excludeTerms = [] } = config.scope;
   if (!offices.length && !places.length) {
     problems.push('scope needs at least one office or place, or the portal has no projects.');
   }
@@ -121,6 +132,9 @@ export function configProblems(config: PortalConfig): string[] {
   for (const e of exclude) {
     if (!/^(dpwh|fmr|hfep|nia|gaa):.+/.test(e.key)) problems.push(`exclusion "${e.key}" should be "<program>:<id>" (2027) or "gaa:<family key>" (2020–2026).`);
     if (!e.reason.trim()) problems.push(`exclusion "${e.key}" needs a reason; readers see it.`);
+  }
+  for (const t of excludeTerms) {
+    if (!t.trim()) problems.push('excludeTerms contains an empty string.');
   }
   return problems;
 }

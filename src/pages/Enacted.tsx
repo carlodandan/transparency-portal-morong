@@ -26,7 +26,7 @@ export default function Enacted() {
   const { config, client, districts } = usePortal();
   const name = shortNameOf(config);
   useTitle(`Enacted budgets ${FIRST}–${LAST} · ${name}`);
-  const places = config.scope.places ?? [];
+  const places = useMemo(() => (config.scope.places ?? []).filter((p) => p.gaa !== false), [config.scope.places]);
 
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [state, setState] = useState<Async<GaaResult>>({ status: 'loading' });
@@ -49,7 +49,13 @@ export default function Enacted() {
     if (hash) document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ block: 'start' });
   }, [hash, districts.status]);
 
-  const placeList = places.map((p) => p.label).join(', ');
+  const placeList = useMemo(() => {
+    if (places.length === 0) return name;
+    if (places.length === 1) return places[0].label;
+    if (places.length === 2) return `${places[0].label} or ${places[1].label}`;
+    return name;
+  }, [places, name]);
+
   return (
     <main className="page main">
       <PageHead
