@@ -2,3 +2,5 @@
 export const SOURCE_CODE_URL = 'https://github.com/bettergovph/transparency-portal';
 /** The national HGAB section on budget.bettergov.ph. */
 export const NATIONAL_URL = 'https://budget.bettergov.ph/hgab/2027/overview';
+/** The BetterMorong section based on bettergov.ph. */
+export const LGU_URL = 'https://bettermorong.org';
